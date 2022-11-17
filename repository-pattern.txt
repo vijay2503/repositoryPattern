@@ -1,0 +1,88 @@
+References :-https://www.youtube.com/watch?v=tUuBMifqFAg
+           :- https://github.com/code4func/go-postgres/tree/master/repository/repoimpl
+           :-https://www.educba.com/postgresql-repository/
+           :-https://github.com/b-b3rn4rd/repository-design-pattern/blob
+15-11-20222:- https://www.youtube.com/watch?v=vqryUyNqJPk
+
+
+		   
+The idea of using the repository pattern is:
+Let’s abstract our database implementation by defining interaction with it by the interface.
+We need to be able to use this interface for any database implementation .
+That means that it should be free of any implementation details of any database.
+we can avoid vendor lock-in and be able to easily swap the database. 
+If we can swap the database, it’s a sign that you implemented the repository pattern correctly.
+We can implement using any database like mysql,postgreql. 
+*) It makes the unit-test is simple.
+*) Tight coupling.
+*)Unit Testing.
+
+   /*package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/b-b3rn4rd/repository-design-pattern/repository"
+	"github.com/guregu/dynamo"
+	"github.com/sirupsen/logrus"
+)
+
+type Comment struct {
+	ID     int    `db:"id" bson:"_id"`
+	Review string `db:"review" bson:"review"`
+	PostID int    `db:"post_id" bson:"post_id"`
+}
+
+type CommentRepository interface {
+	Save(ctx context.Context, c *Comment) error
+	FindByPostID(ctx context.Context, postID int) ([]*Comment, error)
+	InTransaction(ctx context.Context, fn func(context.Context) error) error
+}
+type Post struct {
+	ID    int    `db:"id" bson:"_id"`
+	Title string `db:"title" bson:"title"`
+}
+
+func main() {
+	logger := logrus.New()
+	logger.SetLevel(logrus.DebugLevel)
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
+
+	rr := repository.NewRepositoryRegistry(
+		dynamo.New(sess),
+		logger,
+		&repository.UserRepository{},
+	)
+
+	users, err := rr.MustRepository("UserRepository").List()
+	if err != nil {
+		logger.WithError(err).Fatal("an error has occurred")
+	}
+
+	fmt.Println(users)
+}
+**/
+
+
+
+
+
+#==========> 15 /11/2022
+func (u *UserRepoImpl) Insert(user models.User) error {
+	insertStatement := `
+	INSERT INTO users (id, name, gender, email)
+	VALUES ($1, $2, $3, $4)`
+	_, err := u.Db.Exec(insertStatement, user.ID, user.Name, user.Gender, user.Email)
+	if err != nil {
+		fmt.Println("line---> 55 ", err)
+		return err
+	}
+
+	fmt.Println("Record added: ", user)
+
+	return nil
+}
