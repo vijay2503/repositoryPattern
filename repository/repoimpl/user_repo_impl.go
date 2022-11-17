@@ -27,7 +27,7 @@ func (u *UserRepoImpl) Create(Userst *[]models.User) {
 	fmt.Scan(&name)
 	fmt.Println("Enter The Gender")
 	fmt.Scan(&gender)
-	fmt.Println("Enter The email")
+	fmt.Println("Enter The email 000000000")
 	fmt.Scan(&email)
 	User := models.User{ID: UserId, Name: name, Gender: gender, Email: email}
 	err := Insert(u, User)
